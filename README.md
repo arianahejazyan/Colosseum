@@ -1,5 +1,6 @@
 ## Table of Contents
-*comning soon*
+- [Getting Started](#Getting_Started)
+- [Acknowledgements](#Acknowledgements)
 
 ## Getting Started
 *coming soon*
