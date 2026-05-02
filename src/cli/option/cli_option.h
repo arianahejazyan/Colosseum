@@ -15,6 +15,7 @@ public:
     virtual void parse(const std::vector<std::string>& args) = 0;
 };
 
+// Base class for CLI options that parse key-value pairs (e.g., -engine cmd=COMMAND dir=DIRECTORY)
 class CLIOptionPair : public CLIOption {
 protected:
     using Pair = std::pair<std::string, std::string>; 
