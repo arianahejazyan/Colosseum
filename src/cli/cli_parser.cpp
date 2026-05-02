@@ -37,7 +37,7 @@ void CLIParser::parse(const std::vector<std::string>& args, CLIConfig& config) {
             params.push_back(param);
         }
 
-        options_.at(arg)->parse(params);
+        options_.at(arg)->parse(params, config);
     }
 }
 

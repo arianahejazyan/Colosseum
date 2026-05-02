@@ -6,7 +6,7 @@ namespace colosseum {
 
 class CLIOptionEach : public CLIOption {
 public:
-    void parse(const std::vector<std::string>& args) override {
+    void parse(const std::vector<std::string>& args, CLIConfig& config) override {
         std::cout << "CLIOptionEach parse called" << std::endl;
     }
 };

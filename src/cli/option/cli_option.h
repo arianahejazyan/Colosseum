@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 #include <iostream>
+#include "cli_config.h"
 #include "exception.h"
 
 namespace colosseum {
@@ -12,17 +13,17 @@ namespace colosseum {
 class CLIOption {
 public:
     virtual ~CLIOption() = default;
-    virtual void parse(const std::vector<std::string>& args) = 0;
+    virtual void parse(const std::vector<std::string>& args, CLIConfig& config) = 0;
 };
 
 // Base class for CLI options that parse key-value pairs (e.g., -engine cmd=COMMAND dir=DIRECTORY)
 class CLIOptionPair : public CLIOption {
 protected:
     using Pair = std::pair<std::string, std::string>; 
-    virtual void parse_pairs(const std::vector<Pair>& pairs) = 0;
+    virtual void parse_pairs(const std::vector<Pair>& pairs, CLIConfig& config) = 0;
 
 public:
-    void parse(const std::vector<std::string>& args) override {
+    void parse(const std::vector<std::string>& args, CLIConfig& config) override {
         std::vector<Pair> pairs;
         
         for (const auto& pair: args) {
@@ -46,7 +47,7 @@ public:
             pairs.push_back(std::make_pair(key, value));
         }
 
-        parse_pairs(pairs);
+        parse_pairs(pairs, config);
     }
 };
     
