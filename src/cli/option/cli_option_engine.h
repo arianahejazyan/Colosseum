@@ -4,10 +4,10 @@
 
 namespace colosseum {
 
-class CLIOptionEngine : public CLIOption {
-public:
-    void parse(const std::vector<std::string>& args) override {
-        std::cout << "CLIOptionEngine parse called" << std::endl;
+class CLIOptionEngine : public CLIOptionPair {
+protected:
+    void parse_pairs(const std::vector<Pair>& pairs) override {
+        std::cout << "CLIOptionEngine parse_pairs called" << std::endl;
     }
 };
 
