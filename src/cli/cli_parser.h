@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include "cli_config.h"
-#include "option/cli_option.h"
+#include "option/base/cli_option.h"
 
 namespace colosseum {
 
@@ -18,6 +18,13 @@ public:
     void parse(const std::vector<std::string>& args, CLIConfig& config);
 
 private:
+
+    template<typename T>
+    void register_option() {
+        auto option = std::make_unique<T>();
+        options_[option->name()] = std::move(option);
+    }
+
     std::unordered_map<std::string, std::unique_ptr<CLIOption>> options_;
 };
 

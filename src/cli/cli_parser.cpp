@@ -3,16 +3,25 @@
 #include <algorithm>
 #include <iostream>
 #include "cli_parser.h"
+#include "option/base/cli_option.h"
 #include "option/cli_option_each.h"
 #include "option/cli_option_engine.h"
+#include "option/cli_option_mode.h"
+#include "option/cli_option_rounds.h"
+#include "option/cli_option_setup.h"
+#include "option/cli_option_tournament.h"
 #include "exception.h"
 
 namespace colosseum {
 
 CLIParser::CLIParser() {
     // Register options
-    options_["-each"  ] = std::make_unique<CLIOptionEach  >();
-    options_["-engine"] = std::make_unique<CLIOptionEngine>();
+    register_option<CLIOptionEach>();
+    register_option<CLIOptionEngine>();
+    register_option<CLIOptionMode>();
+    register_option<CLIOptionRounds>();
+    register_option<CLIOptionSetup>();
+    register_option<CLIOptionTournament>();
 }
 
 void CLIParser::parse(const std::vector<std::string>& args, CLIConfig& config) {
@@ -37,7 +46,7 @@ void CLIParser::parse(const std::vector<std::string>& args, CLIConfig& config) {
             params.push_back(param);
         }
 
-        options_.at(arg)->parse(params, config);
+        options_.at(arg)->parse_parameters(params, config);
     }
 }
 
