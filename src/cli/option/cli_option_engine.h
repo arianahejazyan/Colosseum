@@ -1,13 +1,16 @@
 #pragma once
 
-#include "cli_option.h"
+#include "base/cli_option_pair.h"
 #include "exception.h"
 
 namespace colosseum {
 
 class CLIOptionEngine : public CLIOptionPair {
+public:
+    CLIOptionEngine() { name_ = "-engine"; }
+
 protected:
-    void parse_pairs(const std::vector<Pair>& pairs, CLIConfig& config) override {
+    void parse(const std::vector<Pair>& pairs, CLIConfig& config) const override {
 
         auto& engine = config.engine_configs.emplace_back();
 
