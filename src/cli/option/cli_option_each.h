@@ -1,12 +1,16 @@
 #pragma once
 
-#include "cli_option.h"
+#include "base/cli_option_pair.h"
 
 namespace colosseum {
 
-class CLIOptionEach : public CLIOption {
+class CLIOptionEach : public CLIOptionPair {
 public:
-    void parse(const std::vector<std::string>& args, CLIConfig& config) override {
+    CLIOptionEach() { name_ = "-each"; }
+
+protected:
+
+    void parse(const std::vector<Pair>& pairs, CLIConfig& config) const override {
         std::cout << "CLIOptionEach parse called" << std::endl;
     }
 };
