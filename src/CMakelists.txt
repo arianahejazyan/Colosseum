@@ -9,19 +9,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(BUILD_CLI "Build CLI Tool" ON)
 option(BUILD_APP "Build GUI Application" ON)
 
-# === SHARED LIBRARY ===
-file(GLOB_RECURSE LIB_SOURCES
-    "lib/*.cpp"
-)
-
-# Create lib library
-add_library(lib STATIC ${LIB_SOURCES})
-
-# Include directories for lib headers
-target_include_directories(lib PUBLIC 
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib
-)
-
 # === UTILITY LIBRARY ===
 file(GLOB_RECURSE UTILITY_SOURCES
     "utility/*.cpp"
@@ -35,6 +22,26 @@ target_include_directories(utility PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/utility
 )
 
+# === SHARED LIBRARY ===
+file(GLOB_RECURSE LIB_SOURCES
+    "lib/*.cpp"
+)
+
+file(GLOB_RECURSE LIB_HEADERS
+    "lib/*.h"
+    "lib/*/*.h"
+    "lib/*/*/*.h"
+)
+
+# Create lib library
+add_library(lib STATIC ${LIB_SOURCES})
+
+# Link libraries
+target_link_libraries(lib utility)
+
+# Include directories for lib headers
+target_include_directories(lib PUBLIC LIB_HEADERS)
+
 # === CLI LIBRARY ===
 file(GLOB_RECURSE CLI_SOURCES
     "CLI/*.cpp"
@@ -42,11 +49,13 @@ file(GLOB_RECURSE CLI_SOURCES
 
 # Create app library
 add_library(cli STATIC ${CLI_SOURCES})
+
 target_link_libraries(cli lib utility)
 
 # Include directories for cli headers
 target_include_directories(cli PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}/cli
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib
 )
 
 # === APP LIBRARY ===
