@@ -5,6 +5,8 @@
 #include <iostream>
 #include <memory>
 #include "exception.h"
+#include "tournament/tournament_config.h"
+#include "tournament/tournament_factory.h"
 
 namespace colosseum {
 
@@ -27,6 +29,13 @@ int CLI::run(int argc, char const* argv[]) {
     try {
         // Parse arguments
         parser_.parse(args, config_);
+
+        // Create tournament
+        auto tournament_factory = TournamentFactory();
+        auto tournament = tournament_factory.create(config_.tournament);
+
+        // Start tournament
+        tournament->start(config_.tournament);
 
     } catch (const colosseum_exception& e) {
 
