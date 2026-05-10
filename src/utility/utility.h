@@ -5,7 +5,7 @@
 namespace colosseum {
 
 template<typename T>
-std::string get_type_name() {
+constexpr const char* get_type_name() noexcept {
     if constexpr (std::is_same_v<T, int>        ) return "integer"; else 
     if constexpr (std::is_same_v<T, float>      ) return "float"  ; else 
     if constexpr (std::is_same_v<T, double>     ) return "double" ; else 
