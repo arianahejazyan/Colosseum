@@ -13,4 +13,7 @@ std::string get_type_name() {
     return "unknown";
 }
 
+// Check if string follows "key=value" format
+bool is_key_value_format(const std::string& str) noexcept;
+
 } // namspace colosseum
