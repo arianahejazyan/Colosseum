@@ -1,4 +1,3 @@
-#include <algorithm>
 #include "parser.h"
 #include "option/base/option.h"
 #include "option/option_concurrency.h"
@@ -34,20 +33,29 @@ void Parser::parse(const std::vector<std::string>& args, cli::Config& config) {
             throw colosseum_exception("Unkown option: " + arg);
         }
 
-        std::vector<std::string> params;
+        std::vector<std::string> option_arguments;
         
-        while (++i < args.size()) {
-            const auto& param = args[i];
+        while (i + 1 < args.size()) {
+            const auto& token = args[i + 1];
 
-            if (param.starts_with('-') && !std::all_of(param.begin() + 1, param.end(), ::isdigit)) {
-                i--;
-                break;
+            // Allow negative numbers
+            if (token.starts_with('-')) {
+                if (is_number(token)) {
+                    // It's a negative number, treat as parameter
+                    option_arguments.push_back(token);
+                    ++i;
+                } else {
+                    // It's a new option flag, stop collecting
+                    break;
+                }
+            } else {
+                // Regular parameter
+                option_arguments.push_back(token);
+                ++i;
             }
-
-            params.push_back(param);
         }
 
-        options_.at(arg)->parse_arguments(params, config);
+        options_.at(arg)->parse_arguments(option_arguments, config);
     }
 }
 
