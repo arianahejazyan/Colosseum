@@ -16,4 +16,7 @@ constexpr const char* get_type_name() noexcept {
 // Check if string follows "key=value" format
 bool is_key_value_format(const std::string& str) noexcept;
 
+// Checks if string is a valid integer or floating point number
+bool is_number(const std::string& str) noexcept;
+
 } // namspace colosseum
