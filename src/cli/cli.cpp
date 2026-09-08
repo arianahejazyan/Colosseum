@@ -1,56 +1,44 @@
-#include "cli.h"
-#include "cli_parser.h"
-#include "cli_config.h"
-#include <exception>
 #include <iostream>
+#include <vector>
 #include <memory>
-#include "exception.h"
-#include "tournament/tournament_config.h"
-#include "tournament/tournament_factory.h"
+#include "cli.h"
+#include "command.h"
+#include "commands/compare.h"
+#include "commands/connect.h"
+#include "commands/match.h"
+#include "commands/perft.h"
+#include "commands/utils.h"
 
-namespace colosseum {
+namespace colosseum::cli {
 
 int CLI::run(int argc, char const* argv[]) {
-    std::vector<std::string> args(argv + 1, argv + argc);
 
-    for (auto arg: args)
-    {
-        if (arg == "--version") {
-            std::cout << "--version has been called" << std::endl;
-            return 0;
-        }
-
-        if (arg == "--help") {
-            std::cout << "--help has been called" << std::endl;
-            return 0;
-        }
+    if (argc < 2) {
+        std::cerr << "Usage: colosseum <command> [options]\n";
+        return 1;
     }
 
-    try {
-        // Parse arguments
-        parser_.parse(args, config_);
+    std::string name = argv[1];
+    std::vector<std::string> args(argv + 2, argv + argc);
 
-        // Create tournament
-        auto tournament_factory = TournamentFactory();
-        auto tournament = tournament_factory.create(config_.tournament);
+    std::unique_ptr<Command> cmd;
 
-        // Start tournament
-        tournament->start(config_.tournament);
-
-    } catch (const colosseum_exception& e) {
-
-        std::cerr << e.what() << std::endl;
-        std::cout << "Use --help to see all available options." << std::endl;
-        return EXIT_FAILURE;
-
-    } catch (const std::exception& e) {
-        
-        std::cerr << e.what() << std::endl;
-        std::cerr << "Unexpected error occurred. Please submit the bug at https://github.com/arianahejazyan/Colosseum/issues along with your command line arguments and output logs. Thanks!" << std::endl;
-        return EXIT_FAILURE;
+    if (name == "connect") {
+        cmd = std::make_unique<commands::ConnectCommand>();
+    } else if (name == "compare") {
+        cmd = std::make_unique<commands::CompareCommand>();
+    } else if (name == "match") {
+        cmd = std::make_unique<commands::MatchCommand>();
+    } else if (name == "perft") {
+        cmd = std::make_unique<commands::PerftCommand>();
+    } else if (name == "utils") {
+        cmd = std::make_unique<commands::UtilsCommand>();
+    } else {
+        std::cerr << "Unknown command: " << name << "\n";
+        return 1;
     }
 
-    return 0;
+    return cmd->run(args);
 }
 
-} // namspace colosseum
+} // namspace colosseum::clicli/
