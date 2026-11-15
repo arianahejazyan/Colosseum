@@ -11,7 +11,7 @@ option(BUILD_APP "Build GUI Application" ON)
 
 # === UTILITY LIBRARY ===
 file(GLOB_RECURSE UTILITY_SOURCES
-    "utility/*.cpp"
+    "src/utility/*.cpp"
 )
 
 # Create lib library
@@ -19,18 +19,18 @@ add_library(utility STATIC ${UTILITY_SOURCES})
 
 # Include directories for lib headers
 target_include_directories(utility PUBLIC 
-    ${CMAKE_CURRENT_SOURCE_DIR}/utility
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/utility
 )
 
 # === SHARED LIBRARY ===
 file(GLOB_RECURSE LIB_SOURCES
-    "lib/*.cpp"
+    "src/lib/*.cpp"
 )
 
 file(GLOB_RECURSE LIB_HEADERS
-    "lib/*.h"
-    "lib/*/*.h"
-    "lib/*/*/*.h"
+    "src/lib/*.h"
+    "src/lib/*/*.h"
+    "src/lib/*/*/*.h"
 )
 
 # Create lib library
@@ -40,11 +40,11 @@ add_library(lib STATIC ${LIB_SOURCES})
 target_link_libraries(lib utility)
 
 # Include directories for lib headers
-target_include_directories(lib PUBLIC LIB_HEADERS)
+target_include_directories(lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/lib)
 
 # === CLI LIBRARY ===
 file(GLOB_RECURSE CLI_SOURCES
-    "CLI/*.cpp"
+    "src/cli/*.cpp"
 )
 
 # Create app library
@@ -54,13 +54,13 @@ target_link_libraries(cli lib utility)
 
 # Include directories for cli headers
 target_include_directories(cli PUBLIC 
-    ${CMAKE_CURRENT_SOURCE_DIR}/cli
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/cli
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/lib
 )
 
 # === APP LIBRARY ===
 file(GLOB_RECURSE APP_SOURCES
-    "app/*.cpp"
+    "src/app/*.cpp"
 )
 
 # Create app library
@@ -69,13 +69,13 @@ target_link_libraries(app lib utility)
 
 # Include directories for app headers
 target_include_directories(app PUBLIC 
-    ${CMAKE_CURRENT_SOURCE_DIR}/app
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/app
 )
 
 # === CLI EXECUTABLE ===
 if(BUILD_CLI)
     add_executable(colosseum-cli
-        colosseum-cli.cc
+        src/colosseum-cli.cc
     )
     target_link_libraries(colosseum-cli cli)
     set_target_properties(colosseum-cli PROPERTIES
@@ -86,7 +86,7 @@ endif()
 # === APP EXECUTABLE ===
 if(BUILD_APP)
     add_executable(colosseum-app
-        colosseum-app.cc
+        src/colosseum-app.cc
     )
     target_link_libraries(colosseum-app app)
     set_target_properties(colosseum-app PROPERTIES
