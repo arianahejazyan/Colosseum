@@ -1,7 +1,7 @@
 #pragma once
 
-#include "cli_config.h"
-#include "cli_parser.h"
+#include "config/config.h"
+#include "parser/parser.h"
 
 namespace colosseum {
 
@@ -14,8 +14,8 @@ public:
     int run(int argc, char const* argv[]);
 
 private:
-    CLIConfig config_;
-    CLIParser parser_;
+    cli::Config config_;
+    cli::Parser parser_;
 };
 
 } // namspace colosseum

@@ -7,7 +7,7 @@ namespace colosseum
 
 class TournamentGaunlet : public Tournament {
 public:
-    void start(const TournamentConfig& config) override {
+    void start(const tournament::Config& config) override {
         std::cout << "TournamentGaunlet started ..." << std::endl;
     }
 };

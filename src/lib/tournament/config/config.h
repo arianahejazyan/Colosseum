@@ -6,6 +6,7 @@ namespace colosseum::tournament {
 
 struct Config {
 public:
+    std::string type = "roundrobin";
     std::string setup = "modern";
     std::string mode = "team";
     int wait = 0;

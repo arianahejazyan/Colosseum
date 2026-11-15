@@ -8,7 +8,7 @@
 
 namespace colosseum {
 
-std::unique_ptr<Tournament> TournamentFactory::create(const TournamentConfig& config) {
+std::unique_ptr<Tournament> TournamentFactory::create(const tournament::Config& config) {
     auto type = config.type;
 
     if (type == "roundrobin") return std::make_unique<TournamentRoundRobin>();

@@ -1,11 +1,8 @@
 #include "cli.h"
-#include "cli_parser.h"
-#include "cli_config.h"
 #include <exception>
 #include <iostream>
 #include <memory>
 #include "exception.h"
-#include "tournament/tournament_config.h"
 #include "tournament/tournament_factory.h"
 
 namespace colosseum {
