@@ -78,9 +78,6 @@ if(BUILD_CLI)
         src/colosseum-cli.cc
     )
     target_link_libraries(colosseum-cli cli)
-    set_target_properties(colosseum-cli PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-    )
 endif()
 
 # === APP EXECUTABLE ===
@@ -89,7 +86,4 @@ if(BUILD_APP)
         src/colosseum-app.cc
     )
     target_link_libraries(colosseum-app app)
-    set_target_properties(colosseum-app PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-    )
 endif()
