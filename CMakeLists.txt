@@ -56,6 +56,6 @@ target_include_directories(cli PUBLIC
 
 # === EXECUTABLE ===
 add_executable(colosseum
-    src/colosseum.cc
+    src/colosseum.cpp
 )
 target_link_libraries(colosseum cli)
