@@ -5,10 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# === BUILD OPTIONS ===
-option(BUILD_CLI "Build CLI Tool" ON)
-option(BUILD_APP "Build GUI Application" ON)
-
 # === UTILITY LIBRARY ===
 file(GLOB_RECURSE UTILITY_SOURCES
     "src/utility/*.cpp"
@@ -47,7 +43,7 @@ file(GLOB_RECURSE CLI_SOURCES
     "src/cli/*.cpp"
 )
 
-# Create app library
+# Create cli library
 add_library(cli STATIC ${CLI_SOURCES})
 
 target_link_libraries(cli lib utility)
@@ -58,32 +54,8 @@ target_include_directories(cli PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/lib
 )
 
-# === APP LIBRARY ===
-file(GLOB_RECURSE APP_SOURCES
-    "src/app/*.cpp"
+# === EXECUTABLE ===
+add_executable(colosseum
+    src/colosseum.cc
 )
-
-# Create app library
-add_library(app STATIC ${APP_SOURCES})
-target_link_libraries(app lib utility)
-
-# Include directories for app headers
-target_include_directories(app PUBLIC 
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/app
-)
-
-# === CLI EXECUTABLE ===
-if(BUILD_CLI)
-    add_executable(colosseum-cli
-        src/colosseum-cli.cc
-    )
-    target_link_libraries(colosseum-cli cli)
-endif()
-
-# === APP EXECUTABLE ===
-if(BUILD_APP)
-    add_executable(colosseum-app
-        src/colosseum-app.cc
-    )
-    target_link_libraries(colosseum-app app)
-endif()
+target_link_libraries(colosseum cli)
